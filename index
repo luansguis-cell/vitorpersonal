@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitor Fadini | Personal Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D0D10;
+    --bg-alt:#151517;
+    --card:#1B1B1E;
+    --orange:#FF5A1F;
+    --orange-dark:#E04512;
+    --white:#F5F5F3;
+    --gray:#9B9B9F;
+    --line:rgba(245,245,243,0.09);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;overflow-x:hidden;}
+  h1,h2,h3,.display{font-family:'Poppins',sans-serif;font-weight:700;letter-spacing:-0.01em;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  ul{list-style:none;}
+  ::selection{background:var(--orange);color:#fff;}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;}}
+
+  /* ---------- NAV (fixa sempre) ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 6vw;
+    background:rgba(13,13,16,0.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Poppins';font-weight:800;font-size:16px;letter-spacing:.02em;}
+  .brand img{height:32px;width:auto;}
+  nav.links{display:flex;gap:32px;font-size:14px;font-weight:500;}
+  nav.links a{opacity:.85;transition:opacity .25s ease,color .25s ease;}
+  nav.links a:hover{opacity:1;color:var(--orange);}
+  .nav-cta{
+    background:var(--orange);color:#fff;font-weight:600;font-size:13.5px;
+    padding:11px 24px;border-radius:6px;transition:background .25s ease;
+  }
+  .nav-cta:hover{background:var(--orange-dark);}
+
+  .burger{display:none;flex-direction:column;gap:5px;width:26px;cursor:pointer;z-index:210;background:none;border:none;}
+  .burger span{display:block;height:2px;width:100%;background:var(--white);border-radius:2px;transition:transform .3s ease,opacity .3s ease;}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .mobile-menu{
+    position:fixed;inset:0;top:0;background:var(--bg);z-index:190;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;
+    transform:translateY(-100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .mobile-menu.open{transform:translateY(0);}
+  .mobile-menu a{font-family:'Poppins';font-size:26px;font-weight:600;}
+  .mobile-menu .nav-cta{margin-top:10px;font-size:16px;padding:14px 34px;}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding-top:80px;}
+  .hero-bg{
+    position:absolute;inset:0;
+    background-image:linear-gradient(180deg, rgba(13,13,16,.35) 0%, rgba(13,13,16,.55) 55%, rgba(13,13,16,1) 100%), url('hero.jpg');
+    background-size:cover;background-position:center 20%;
+  }
+  .hero-inner{position:relative;z-index:2;width:100%;padding:0 6vw;}
+  .eyebrow{
+    font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);
+    display:flex;align-items:center;gap:10px;margin-bottom:20px;
+  }
+  .eyebrow .dot{width:7px;height:7px;background:var(--orange);border-radius:50%;}
+  .hero h1{font-size:clamp(38px,7.5vw,86px);line-height:1.03;max-width:16ch;}
+  .hero h1 .orange{color:var(--orange);}
+  .hero p{font-size:16px;line-height:1.7;color:var(--gray);max-width:42ch;margin-top:22px;}
+  .hero-btns{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;padding:16px 32px;border-radius:6px;font-weight:600;font-size:15px;
+    transition:transform .25s ease,background .25s ease;
+  }
+  .btn-fill{background:var(--orange);color:#fff;}
+  .btn-fill:hover{background:var(--orange-dark);transform:translateY(-2px);}
+  .btn-ghost{border:1px solid var(--line);color:var(--white);}
+  .btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
+  .hero-stats{display:flex;gap:46px;margin-top:56px;flex-wrap:wrap;}
+  .hero-stats div{border-left:2px solid var(--orange);padding-left:14px;}
+  .hero-stats .n{font-family:'Poppins';font-weight:800;font-size:28px;}
+  .hero-stats .l{font-size:12.5px;color:var(--gray);margin-top:2px;}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:120px 6vw;position:relative;}
+  .tag{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:16px;}
+  .sec-head h2{font-size:clamp(28px,4vw,46px);max-width:16ch;line-height:1.15;margin-bottom:60px;}
+
+  .sobre{background:var(--bg-alt);}
+  .sobre-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center;}
+  .sobre-photo{position:relative;}
+  .sobre-photo img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px;}
+  .sobre-photo::before{
+    content:'';position:absolute;inset:16px -16px -16px 16px;
+    border:2px solid var(--orange);border-radius:14px;z-index:-1;
+  }
+  .sobre-text p{color:var(--gray);font-size:16px;line-height:1.8;margin-bottom:20px;max-width:52ch;}
+  .sobre-text b{color:var(--white);}
+  .creds{display:flex;gap:30px;margin-top:36px;flex-wrap:wrap;}
+  .creds div{background:var(--card);border-radius:10px;padding:18px 22px;min-width:150px;}
+  .creds .n{font-family:'Poppins';font-weight:800;color:var(--orange);font-size:20px;}
+  .creds .l{font-size:12px;color:var(--gray);margin-top:4px;}
+
+  .grid-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .card{background:var(--card);border-radius:14px;padding:34px 28px;border:1px solid var(--line);transition:transform .3s ease,border-color .3s ease;}
+  .card:hover{transform:translateY(-6px);border-color:var(--orange);}
+  .card .ic{width:42px;height:42px;border-radius:10px;background:rgba(255,90,31,0.14);display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--orange);font-weight:800;font-family:'Poppins';}
+  .card h3{font-size:19px;margin-bottom:10px;}
+  .card p{font-size:14.5px;color:var(--gray);line-height:1.7;}
+
+  .prova{background:var(--bg-alt);}
+  .prova-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .testi{background:var(--card);border-radius:14px;padding:32px 28px;border:1px solid var(--line);}
+  .testi p{font-size:15px;line-height:1.75;}
+  .testi .who{margin-top:22px;font-size:13px;color:var(--orange);font-weight:600;}
+
+  .cta-final{
+    text-align:center;background:linear-gradient(135deg,var(--orange) 0%,var(--orange-dark) 100%);
+    border-radius:20px;margin:0 6vw;padding:90px 6vw;
+  }
+  .cta-final .tag{color:#fff;opacity:.85;}
+  .cta-final h2{color:#fff;max-width:20ch;margin:0 auto 30px;font-size:clamp(30px,5vw,52px);}
+  .cta-final .btn-fill{background:#fff;color:var(--orange-dark);}
+  .cta-final .btn-fill:hover{background:#f0f0f0;}
+
+  footer{
+    padding:44px 6vw;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+    font-size:13px;color:var(--gray);
+  }
+  footer .fbrand{color:var(--white);font-weight:600;}
+  footer .fsoc a{margin-left:20px;color:var(--gray);}
+  footer .fsoc a:hover{color:var(--orange);}
+
+  @media (max-width:860px){
+    nav.links,.nav-cta{display:none;}
+    header .burger{display:flex;}
+    .sobre-grid{grid-template-columns:1fr;gap:50px;}
+    .grid-cards,.prova-grid{grid-template-columns:1fr;}
+    .cta-final{margin:0 4vw;}
+    section{padding:90px 5vw;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><img src="logo.png" alt="Vitor Fadini logo">VITOR FADINI</div>
+  <nav class="links">
+    <a href="#sobre">Sobre</a>
+    <a href="#metodo">Método</a>
+    <a href="#resultados">Resultados</a>
+  </nav>
+  <a href="#contato" class="nav-cta">Consultoria</a>
+  <button class="burger" id="burger"><span></span><span></span><span></span></button>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#sobre" class="mlink">Sobre</a>
+  <a href="#metodo" class="mlink">Método</a>
+  <a href="#resultados" class="mlink">Resultados</a>
+  <a href="#contato" class="nav-cta mlink">Consultoria</a>
+</div>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="eyebrow"><div class="dot"></div>CREF 016829-G/ES</div>
+    <h1>Treino sério pra <span class="orange">resultado</span> real</h1>
+    <p>Consultoria de emagrecimento e hipertrofia, online e presencial — com acompanhamento de verdade, não uma planilha genérica de internet.</p>
+    <div class="hero-btns">
+      <a href="#contato" class="btn btn-fill">Começar consultoria</a>
+      <a href="#metodo" class="btn btn-ghost">Ver método</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="n">100%</div><div class="l">Treino individualizado</div></div>
+      <div><div class="n">On/Off</div><div class="l">Online e presencial</div></div>
+      <div><div class="n">CREF</div><div class="l">Profissional registrado</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sobre" id="sobre">
+  <div class="sec-head reveal">
+    <div class="tag">Sobre</div>
+    <h2>Quem monta o seu treino</h2>
+  </div>
+  <div class="sobre-grid">
+    <div class="sobre-photo reveal">
+      <img src="sobre.jpg" alt="Vitor Fadini, personal trainer">
+    </div>
+    <div class="sobre-text reveal">
+      <p><b>Sou o Vitor</b>, profissional de Educação Física registrado no CREF, especializado em emagrecimento e hipertrofia. Trabalho com consultoria online e presencial — treino pensado pra sua rotina e seu objetivo, não copiado de ninguém.</p>
+      <p>Não vendo treino pronto, vendo <b>acompanhamento</b>: ajuste de carga, correção de execução e constância — porque resultado vem do que você repete todos os dias, não do treino perfeito uma vez só.</p>
+      <div class="creds">
+        <div><div class="n">CREF</div><div class="l">016829-G/ES</div></div>
+        <div><div class="n">100%</div><div class="l">Individualizado</div></div>
+        <div><div class="n">On/Off</div><div class="l">Online e presencial</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="metodo">
+  <div class="sec-head reveal">
+    <div class="tag">Método</div>
+    <h2>O que sustenta o resultado</h2>
+  </div>
+  <div class="grid-cards">
+    <div class="card reveal"><div class="ic">01</div><h3>Treino de força</h3><p>Carga progressiva e execução correta acima de qualquer modismo de treino.</p></div>
+    <div class="card reveal"><div class="ic">02</div><h3>Constância</h3><p>A maioria troca de treino antes de explorar o potencial dele. Aqui o plano é ajustado com dado, não achismo.</p></div>
+    <div class="card reveal"><div class="ic">03</div><h3>Alimentação</h3><p>Orientação prática de alimentos naturais, proteína e fibras — sem dieta restritiva de internet.</p></div>
+    <div class="card reveal"><div class="ic">04</div><h3>Recuperação</h3><p>Sono regula hormônio da fome e evita escolha alimentar ruim. Recuperação é parte do treino.</p></div>
+    <div class="card reveal"><div class="ic">05</div><h3>Acompanhamento</h3><p>Check-ins e ajuste de carga e volume conforme sua evolução real.</p></div>
+    <div class="card reveal"><div class="ic">06</div><h3>Equilíbrio</h3><p>Cuidado com o que te faz bem, dentro e fora da academia, pro foco durar.</p></div>
+  </div>
+</section>
+
+<section class="prova" id="resultados">
+  <div class="sec-head reveal">
+    <div class="tag">Resultados</div>
+    <h2>Quem já treina no método</h2>
+  </div>
+  <div class="prova-grid">
+    <div class="testi reveal"><p>"Troquei treino genérico de app por acompanhamento de verdade. Entendi mais sobre meu corpo em 3 meses do que em 2 anos treinando sozinho."</p><div class="who">Aluno, consultoria online</div></div>
+    <div class="testi reveal"><p>"O que mudou foi ter alguém corrigindo execução toda semana. Isso acelerou tudo."</p><div class="who">Aluna, consultoria presencial</div></div>
+    <div class="testi reveal"><p>"Constância virou hábito porque o plano fazia sentido pra minha rotina."</p><div class="who">Aluno, consultoria online</div></div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="cta-final reveal">
+    <div class="tag">Próximo passo</div>
+    <h2>Vamos montar o seu protocolo de treino?</h2>
+    <a href="#" class="btn btn-fill">Iniciar consultoria</a>
+  </div>
+</section>
+
+<footer>
+  <div class="fbrand">VITOR FADINI PERSONAL</div>
+  <div>© 2026 · CREF 016829-G/ES</div>
+  <div class="fsoc"><a href="#">Instagram</a><a href="#">WhatsApp</a></div>
+</footer>
+
+<script>
+  const burger=document.getElementById('burger');
+  const menu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>{
+    burger.classList.toggle('open');
+    menu.classList.toggle('open');
+  });
+  document.querySelectorAll('.mlink').forEach(a=>a.addEventListener('click',()=>{
+    burger.classList.remove('open');menu.classList.remove('open');
+  }));
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+  },{threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
